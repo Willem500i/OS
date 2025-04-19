@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.sol": "solidity",
+        "stdlib.h": "c"
+    }
+}
