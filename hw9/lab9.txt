@@ -1,0 +1,40 @@
+9C)
+
+1) In both processes, print the start address of the shared buffer.
+
+The programs print the shared buffer address using:
+
+printf("Producer/Consumer: Shared buffer address = %p (logical/virtual address)\n", (void *)shm);
+
+0xf7e41dccd000 for the producer, 0xf38c806cc000 for the consumer.
+
+2) Was the address printed Logical (virtual) or physical address?
+
+The address printed is a logical (virtual) address. This is because the programs access memory through the virtual memory system. The `mmap()` function returns a virtual address that the process can use to access the shared memory region. The actual physical address is managed by the operating system's memory management unit (MMU) and is not directly accessible to user-space programs.
+
+3) Print the address of n from your running program and also...
+The programs print the address of n using:
+
+printf("Producer/Consumer: Address of n = %p\n", (void *)&n);
+
+0xfffffbb7e868 for the producer, 0xfffffb62e9c0 for the consumer.
+
+4) Find out where it's stored in the .elf file (executable).
+
+The variable 'n' is a local variable within the main function and is stored on the stack at runtime. To find references to it in the ELF file, I used the readelf tool as suggested in the hints. While the variable itself doesn't have a permanent address in the ELF file (as it's a local variable), I can see in the disassembly that it's accessed at a specific offset from the stack pointer. After compiling with debugging symbols, readelf shows that 'n' is a local variable in the main function's stack frame.
+
+5) Did the addresses match (printed from the running program vs the one in the program's elf file)? Why?
+
+No they didn't match. The address printed from the running program is the runtime virtual address in memory after the program has been loaded and memory has been allocated by the operating system. The address in the ELF file is the address relative to the program's load address as specified in the executable.
+
+The variable `n` is a local variable stored on the stack, while the ELF file would contain information about global or static variables. The actual memory layout is determined at runtime by the loader and memory allocator.
+
+6) What is the virtual address of the entry point in your producer and consumer programs?
+
+command run: readelf -h lab9_producer | grep "Entry point"
+
+Entry point address:               0xbc0
+
+readelf -h lab9_consumer | grep "Entry point"
+
+Entry point address:               0xac0
