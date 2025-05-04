@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.sol": "solidity",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "iostream": "cpp"
     }
 }
